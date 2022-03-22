@@ -3,7 +3,10 @@ CFLAGS = -Wall -Wextra -Werror
 
 NAME = fdf
 
-SRCS = main.c
+SRCS = main.c \
+#		gnl.c \
+#		gnl_util.c\
+#		point.c
 OBJS = $(SRCS:.c=.o)
 
 all = $(NAME)
@@ -12,7 +15,7 @@ all = $(NAME)
 	$(CC) $(CFLAGS) -c $<
 
 $(NAME): $(OBJS) libmlx.dylib
-	$(CC) $(CFLAGS) -o $@ $^ -lmlx -framework OpenGL -framework AppKit
+	$(CC) $(CFLAGS) -o $@ $^ -Lmlx -framework OpenGL -framework AppKit
 
 libmlx.dylib:
 	make -C mlx
