@@ -72,8 +72,46 @@ char	***split_lines(t_list **head, int len)
 	return (points);
 }
 
+void	parse_z_and_color(int *z, int *color, char *point_str)
+{
 
-void	parse_map(int fd)
+}
+
+t_point *create_point(int i, int j, char *point_str)
+{
+	int 	z;
+	int 	color;
+	t_point	*point;
+
+	parse_z_and_color(&z, &color, point_str);
+	point = create_point(i, j, z, color)
+}
+
+t_point	**points_to_matrix(char ***points, int row, int col)
+{
+	int		i;
+	int		j;
+	t_point	**matrix;
+
+	matrix = malloc(sizeof (*matrix) * row);
+	if (matrix == NULL)
+		return (NULL);
+	i = 0;
+	while (points[i])
+	{
+		matrix[i] = malloc(sizeof (**matrix) * col);
+		j = 0;
+		while (points[i][j])
+		{
+			matrix[i][j] = create_point(i, j, points[i][j]);
+			j++;
+		}
+		i++;
+	}
+	return (matrix);
+}
+
+t_point	**parse_map(int fd)
 {
 	int 	len;
 	char	*line;
@@ -101,5 +139,6 @@ void	parse_map(int fd)
 		printf("\n");
 		i++;
 	}
-//	matrix = points_to_matrix(points);
+	matrix = points_to_matrix(points, row, col);
+	return (matrix);
 }
