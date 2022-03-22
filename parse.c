@@ -1,54 +1,105 @@
+#include <fcntl.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include "gnl.h"
+#include "free.h"
+#include "error.h"
 #include "parse.h"
 #include "point.h"
-#include "fcntl.h"
+#include "libft/libft.h"
 
-static void	error_exit(char *str)
+void	delete_data(void *data)
 {
-	return ;
+	if (data != NULL)
+		free(data);
 }
 
-int check_valid(char *line)
+void	*free_node(t_list **del)
 {
-	int count;
+	free((*del)->content);
+	free(*del);
+	*del = NULL;
+	return (NULL);
+}
 
-	count = 0;
-	while (*line)
+t_list	*map_to_lines(int fd, char *line, int *count)
+{
+	t_list	*node;
+
+	node = ft_lstnew(line);
+	if (node == NULL)
 	{
-		if (*line == '+' or *line == '-')
-			line++;
-		if ('0' <= *line && *line <= '9')
-			count++;
-		while ('0' <= *line && *line <= '9')
-			line++;
-		if (*line == ' ')
-			line++;
-		if (*line == '\0' || *line == '\n')
-			break ;
-		if (*line != '+' && *line != '-' && !('0' <= *line && *line <= '9'))
-			return (-1);
+		free(line);
+		return (NULL);
 	}
-	return (count);
-}
-
-t_point	create_matrix(char *path)
-{
-	int 	fd;
-	int 	row
-	int 	col;
-	char	*line;
-	t_point	**matrix;
-
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		error_exit("open");
 	line = get_next_line(fd);
-	col = check_valid(line);
+	if (line)
+	{
+		(*count)++;
+		node->next = map_to_lines(fd, line, count);
+		if (node->next == NULL)
+			return (free_node(&node));
+	}
+	return (node);
 }
 
-int	**parse_map(char *path)
+char	***split_lines(t_list **head, int len)
 {
+	int 	i;
+	char	***points;
+	t_list	*node;
+
+	points = malloc(sizeof (*points) * (len + 1));
+	if (points == NULL)
+		error_exit();
+	points[len] = NULL;
+	i = 0;
+	node = *head;
+	while (node != NULL)
+	{
+		points[i] = ft_split(node->content, ' ');
+		if (points[i] == NULL)
+		{
+			while (--i >= 0)
+				free_double(points[i]);
+			free(points);
+			ft_lstclear(head, delete_data);
+			error_exit();
+		}
+		i++;
+		node = node->next;
+	}
+	return (points);
+}
+
+
+void	parse_map(int fd)
+{
+	int 	len;
+	char	*line;
+	t_list	*head;
+	char	***points;
 	t_point	**matrix;
 
-	matrix = create_matrix(path);
+	line = get_next_line(fd);
+	if (line == NULL)
+		error_exit();
+	len = 1;
+	head = map_to_lines(fd, line, &len);
+	if (head == NULL)
+		error_exit();
+	points = split_lines(&head, len);
+	int	i = 0;
+	while (points[i])
+	{
+		char **temp = points[i];
+		while (*temp)
+		{
+			printf("%s ", *temp);
+			temp++;
+		}
+		printf("\n");
+		i++;
+	}
+//	matrix = points_to_matrix(points);
 }

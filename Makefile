@@ -14,8 +14,12 @@ all = $(NAME)
 .c.o:
 	$(CC) $(CFLAGS) -c $<
 
-$(NAME): $(OBJS) libmlx.dylib
+$(NAME): $(OBJS) libft.a libmlx.dylib
 	$(CC) $(CFLAGS) -o $@ $^ -Lmlx -framework OpenGL -framework AppKit
+
+libft.a:
+	make -C libft
+	cp libft/libft.a ./
 
 libmlx.dylib:
 	make -C mlx
@@ -27,6 +31,7 @@ clean:
 
 fclean: clean
 	rm -f mlx/libmlx.dylib
+	rm -f libft.a
 	rm -f libmlx.dylib
 	rm -f $(NAME)
 

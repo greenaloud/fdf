@@ -66,9 +66,9 @@ void	copy_last_content(char *dst, char *src, char *buffer)
 		copy_content(dst, src);
 }
 
-t_list	*lst_new(char *str)
+t_piece	*lst_new(char *str)
 {
-	t_list	*new;
+	t_piece	*new;
 
 	new = malloc(sizeof (*new));
 	if (new == NULL)

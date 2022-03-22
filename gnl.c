@@ -6,7 +6,7 @@ char	*get_next_line(int fd)
 {
 	static char	*buffer[MAX_OPEN];
 	int			len;
-	t_list		*head;
+	t_piece		*head;
 
 	if (buffer[fd] == NULL)
 	{
@@ -31,10 +31,10 @@ char	*get_next_line(int fd)
 	return (make_string(head, buffer[fd], len));
 }
 
-t_list	*read_single_line(int fd, char **buffer, int *len)
+t_piece	*read_single_line(int fd, char **buffer, int *len)
 {
 	int		val;
-	t_list	*new;
+	t_piece	*new;
 
 	new = lst_new(*buffer);
 	if (new == NULL)
@@ -58,11 +58,11 @@ t_list	*read_single_line(int fd, char **buffer, int *len)
 	return (new);
 }
 
-char	*make_string(t_list *node, char *buffer, int len)
+char	*make_string(t_piece *node, char *buffer, int len)
 {
 	char	*cur;
 	char	*result;
-	t_list	*del;
+	t_piece	*del;
 
 	result = malloc(sizeof (char) * (len + 1));
 	if (result == NULL)
