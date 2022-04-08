@@ -6,13 +6,9 @@ NAME = fdf
 SRCS = main.c \
 		gnl.c \
 		gnl_util.c\
-		point.c \
 		error.c \
 		free.c \
-		parse.c \
-		parse2.c \
-		point.c \
-		validate.c
+		read_map.c
 OBJS = $(SRCS:.c=.o)
 
 all = $(NAME)

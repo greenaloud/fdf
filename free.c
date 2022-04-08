@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "free.h"
+#include "read_map.h"
 
 void	free_double(char **ptr)
 {
@@ -25,4 +26,16 @@ void	free_triple(char ***list)
 		i++;
 	}
 	free(list);
+}
+
+void	free_ml(t_ml *head)
+{
+	t_ml	*del;
+
+	while (head != NULL)
+	{
+		del = head;
+		head = head->next;
+		free(del);
+	}
 }
