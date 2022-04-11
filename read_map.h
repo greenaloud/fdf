@@ -7,6 +7,6 @@ typedef struct s_ml
     struct s_ml	*next;
 } t_ml;
 
-char    **read_map(int fd);
+char    **read_map(int fd, int *row);
 
 #endif

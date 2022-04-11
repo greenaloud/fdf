@@ -1,10 +1,9 @@
 #include <stdlib.h>
 #include "read_map.h"
 #include "error.h"
-#include "free.h"
 #include "gnl.h"
 
-t_ml    *create_ml(char *str)
+static t_ml    *create_ml(char *str)
 {
 	t_ml    *new_ml;
 
@@ -16,10 +15,30 @@ t_ml    *create_ml(char *str)
 	return (new_ml);
 }
 
-char    **read_map(int fd)
+static char	**ml_to_arr(t_ml *head, int cnt)
+{
+	int 	i;
+	t_ml	*del;
+	char	**str_map;
+
+	str_map = malloc(sizeof (*str_map) * (cnt + 1));
+	if (str_map == NULL)
+		read_error(head);
+	i = 0;
+	while (head != NULL)
+	{
+		str_map[i++] = head->line;
+		del = head;
+		head = head->next;
+		free(del);
+	}
+	str_map[i] = NULL;
+	return (str_map);
+}
+
+char    **read_map(int fd, int *row)
 {
 	int		cnt;
-	char	**str_map;
 	char	*line;
 	t_ml	dummy;
 	t_ml	*cur;
@@ -37,15 +56,8 @@ char    **read_map(int fd)
 		line = get_next_line(fd);
 		cur = cur->next;
 	}
-	str_map = malloc(sizeof (*str_map) * (cnt + 1));
-	cnt = 0;
-	cur = dummy.next;
-	while (cur != NULL)
-	{
-		str_map[cnt++] = cur->line;
-		cur = cur->next;
-	}
-	str_map[cnt] = NULL;
-	free_ml(dummy.next);
-	return (str_map);
+	if (cnt == 0)
+		error_exit("empty file\n");
+	*row = cnt;
+	return (ml_to_arr(dummy.next, cnt));
 }

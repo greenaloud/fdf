@@ -8,7 +8,9 @@ SRCS = main.c \
 		gnl_util.c\
 		error.c \
 		free.c \
-		read_map.c
+		read_map.c \
+		map_to_point.c \
+
 OBJS = $(SRCS:.c=.o)
 
 all = $(NAME)

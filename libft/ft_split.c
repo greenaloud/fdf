@@ -79,7 +79,7 @@ static int	divide(char **arr, char const *s, char c)
 	return (1);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c, int *col)
 {
 	int		idx;
 	int		cnt;
@@ -99,5 +99,6 @@ char	**ft_split(char const *s, char c)
 		free(result);
 		return (NULL);
 	}
+	*col = cnt;
 	return (result);
 }
