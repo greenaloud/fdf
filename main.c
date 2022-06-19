@@ -38,7 +38,7 @@ int	main(int argc, char **argv)
 	int 	row;
 	int 	col;
 	char    **lines;
-	char	***str_point;
+	char	***str_points;
 //	t_point ***points;
 
 	if (argc != 2 && argc != 4)
@@ -47,9 +47,9 @@ int	main(int argc, char **argv)
 	if (fd < 0)
 		error_exit("file open error occurred\n");
 	lines = read_map(fd, &row);
-	str_point = str_map_to_str_point(lines, row, &col);
+	str_points = str_map_to_str_point(lines, row, &col);
 	print_triple(str_point);
-	points = str_point_to_points(str_point, row, col);
+//	points = str_point_to_points(str_point, row, col);
 	system("leaks fdf");
 	return (0);
 }

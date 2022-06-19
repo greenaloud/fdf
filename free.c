@@ -39,3 +39,29 @@ void	free_ml(t_ml *head)
 		free(del);
 	}
 }
+
+void	free_double_point(t_point **points)
+{
+	int	i;
+
+	i = 0;
+	while (points[i])
+	{
+		free(points[i]);
+		i++;
+	}
+	free(points);
+}
+
+void	free_triple_point(t_point ***points)
+{
+	int i;
+
+	i = 0;
+	while (points[i])
+	{
+		free(points[i]);
+		i++;
+	}
+	free(points);
+}
